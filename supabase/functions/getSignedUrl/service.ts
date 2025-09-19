@@ -120,6 +120,17 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_ANON_KEY")! 
 );
 
+// Removing character from filePath
+function removeCharactersFromFileUploaded(name: string): string {
+  return name
+    .normalize("NFKD")               
+    .replace(/\s+/g, "_")            
+    .replace(/[^a-zA-Z0-9._-]/g, "") 
+    .toLowerCase();                  
+}
+
+
+
 Deno.serve(async (req) => {
   const url = new URL(req.url);
 
@@ -181,7 +192,9 @@ Deno.serve(async (req) => {
       const file = formData.get("file") as File;
       if (!file) return jsonResponse({ error: "file is required", code: 400 }, 400);
 
-      const filePath = `user-${user.id}/${file.name}`;
+
+      const sanitizedName = removeCharactersFromFileUploaded(file.name);
+      const filePath = `user-${user.id}/${sanitizedName}`;
       const { error: uploadError } = await supabase.storage
         .from("files")
         .upload(filePath, file.stream(), { upsert: true });
