@@ -1,4 +1,5 @@
 import { load } from "@std/dotenv";
+import { serve } from "std/http/server";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 await load({ export: true });
@@ -18,8 +19,23 @@ function removeCharactersFromFileUploaded(name: string): string {
 }
 
 
-Deno.serve({ port: 8787 }, async (req) => {
+serve(async (req) => {
   const url = new URL(req.url);
+
+  const pathname = url.pathname;
+
+  if (pathname.endsWith("/signup")) {
+  } 
+  else if (pathname.endsWith("/signin")) {
+  }
+   else if (pathname.endsWith("/uploadFile")) {
+  }
+   else if (pathname.endsWith("/getSignedUrl")) {
+  }
+   else {
+    return new Response("Not found", { status: 404 });
+  }
+
 
   // Handles JSON response messages
   function jsonResponse(body: Record<string, unknown>, status = 200) {
@@ -119,7 +135,7 @@ Deno.serve({ port: 8787 }, async (req) => {
 
       if (fileError || !file) return jsonResponse({ error: "Forbidden", code: 403 }, 403);
 
-      const expiry = typeof expiresIn === "number" ? expiresIn : 3600;
+      const expiry = typeof expiresIn === "number" ? expiresIn : 60;
       const { data: signedUrl, error: urlError } = await supabase.storage
         .from("files")
         .createSignedUrl(filePath, expiry);
