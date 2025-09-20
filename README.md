@@ -156,7 +156,7 @@ Request with another user’s filePath:
 Request:
 {
     "filePath": "user-4352c24d-61d7-4af5-8626-4a1cb383ffba/damie1.jpe",
-    "expiresIn": "3600"
+    "expiresIn": "60"
 }
 
 Response:
