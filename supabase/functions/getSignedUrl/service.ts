@@ -21,7 +21,7 @@ function removeCharactersFromFileUploaded(name: string): string {
 Deno.serve({ port: 8787 }, async (req) => {
   const url = new URL(req.url);
 
-  // Utility for JSON responses
+  // Handles JSON response messages
   function jsonResponse(body: Record<string, unknown>, status = 200) {
     return new Response(JSON.stringify(body), {
       status,
@@ -29,7 +29,7 @@ Deno.serve({ port: 8787 }, async (req) => {
     });
   }
 
-  //SIGNUP
+  //SignUp
   if (url.pathname === "/signup" && req.method === "POST") {
     try {
       const body = await req.json();
@@ -45,7 +45,7 @@ Deno.serve({ port: 8787 }, async (req) => {
     }
   }
 
-  //SIGNIN
+  //SignIn
   if (url.pathname === "/signin" && req.method === "POST") {
     try {
       const body = await req.json();
@@ -64,7 +64,7 @@ Deno.serve({ port: 8787 }, async (req) => {
     }
   }
 
-  //UPLOAD FILE
+  //Upload file Using multipart form-data
   if (req.method === "POST" && url.pathname === "/uploadFile") {
     try {
       const authHeader = req.headers.get("Authorization");
@@ -97,7 +97,7 @@ Deno.serve({ port: 8787 }, async (req) => {
     }
   }
 
-  //GET SIGNED URL
+  //Get Signed Url
   if (req.method === "POST" && url.pathname === "/getSignedUrl") {
     try {
       const authHeader = req.headers.get("Authorization");
