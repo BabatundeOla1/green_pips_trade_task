@@ -123,7 +123,7 @@ serve(async (req) => {
       const { data: { user }, error: userError } = await supabase.auth.getUser(token);
       if (userError || !user) return jsonResponse({ error: "Invalid or expired token", code: 401 }, 401);
 
-      const { filePath, expiresIn } = await req.json();
+      const { filePath } = await req.json();
       if (!filePath) return jsonResponse({ error: "filePath is required", code: 400 }, 400);
 
       const { data: file, error: fileError } = await supabase
@@ -135,7 +135,9 @@ serve(async (req) => {
 
       if (fileError || !file) return jsonResponse({ error: "Forbidden", code: 403 }, 403);
 
-      const expiry = typeof expiresIn === "number" ? expiresIn : 60;
+      // const expiry = typeof expiresIn === "number" ? expiresIn : 60;
+      const expiry = 60;
+
       const { data: signedUrl, error: urlError } = await supabase.storage
         .from("files")
         .createSignedUrl(filePath, expiry);

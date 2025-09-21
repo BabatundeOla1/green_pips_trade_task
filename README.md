@@ -138,25 +138,21 @@ Authorization: Bearer <access_token>
 Enrolled user can get a signed URL.
 Request (JSON):
 {
-  "filePath": "user-c4e270ec-b97e-4a67-8833-0ea1f790f50c/damie1.jpe",
-  "expiresIn": 3600
+  "filePath": "user-c4e270ec-b97e-4a67-8833-0ea1f790f50c/damie1.jpe"
 }
 
-
-(expiresIn is optional, defaults to 60 seconds if omitted.)
 
 Response:
 {
   "url": "https://<project>.supabase.co/storage/v1/object/sign/files/.../damie1.jpe?token=eyJra...",
-  "expiresIn": 3600
+  "expiresIn": 60
 }
 
 Different user cannot
 Request with another user’s filePath:
 Request:
 {
-    "filePath": "user-4352c24d-61d7-4af5-8626-4a1cb383ffba/damie1.jpe",
-    "expiresIn": "60"
+    "filePath": "user-4352c24d-61d7-4af5-8626-4a1cb383ffba/damie1.jpe"
 }
 
 Response:
